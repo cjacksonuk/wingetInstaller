@@ -1,0 +1,48 @@
+# show installed packages (human readable)
+winget list
+
+# show installed packages as JSON (scriptable)
+winget list --output json | ConvertFrom-Json
+
+# show only Name/Id/Version in a table
+winget list --output json | ConvertFrom-Json | Select-Object Name, Id, Version | Format-Table -AutoSize
+
+# export installed packages to a manifest (useful for repro/transfer)
+winget export -o C:\appinstall_installed.json
+
+# search the remote repository (examples)
+winget search vlc
+winget search --name "visual studio"
+
+# install example
+ winget install --id videolan.vlc --accept-source-agreements --accept-package-agreements -h 
+
+ # Install by Id (recommended) - accept agreements and run silently
+winget install --id VideoLAN.VLC --accept-source-agreements --accept-package-agreements --silent
+
+# Install by Name
+winget install --name "VLC media player" --accept-source-agreements --accept-package-agreements
+
+# Install a specific version
+winget install --id Microsoft.Edge --version 1234.56.0 --accept-source-agreements --accept-package-agreements --silent
+
+# Install from a local manifest or package file
+winget install --manifest C:\path\to\package.yaml
+winget install --file C:\path\to\package.msixbundle --accept-source-agreements --accept-package-agreements
+
+# Uninstall by Id (recommended)
+winget uninstall --id VideoLAN.VLC --silent
+
+# Uninstall by Name
+winget uninstall --name "VLC media player" --silent
+
+# Uninstall multiple known IDs
+$ids = @('VideoLAN.VLC','7zip.7zip')
+foreach ($id in $ids) { winget uninstall --id $id --silent }
+
+# Get installed packages with Ids, then uninstall those that have an Id
+$installed = winget list --output json | ConvertFrom-Json
+$target = $installed | Where-Object { $_.Id -and $_.Name -match 'VLC|7zip' }  # example filter
+foreach ($pkg in $target) {
+    winget uninstall --id $pkg.Id --silent
+}
