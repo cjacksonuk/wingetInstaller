@@ -9,3 +9,4 @@ The second script ideally as a logoff script as it will install and update many 
 As a security advisory its possible that should another vendors repository be infected - that could be installed.
 
 Also there are some large files that should be added to the installer repository.
+https://icthero-my.sharepoint.com/:u:/g/personal/cj_icthero_co_uk/EcqSjwSxvIxCvBarlDVxmogBNjCCxUqTGv8m84YZMLkrhQ?e=IT5m7q
